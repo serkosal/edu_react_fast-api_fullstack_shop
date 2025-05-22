@@ -1,0 +1,9 @@
+header {
+    width: 100%;
+
+    min-height: 120px;
+
+    display: flex;
+
+    background-color: #2A2A2A;
+}

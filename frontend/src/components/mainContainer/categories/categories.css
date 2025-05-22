@@ -1,0 +1,11 @@
+.categories {
+    flex: 1 200px;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+
+    height: fit-content;
+
+    background-color: #2A2A2A; 
+}

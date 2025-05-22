@@ -1,0 +1,15 @@
+main {
+
+    margin: 20px;
+    min-height: 800px;
+    
+
+
+    flex: 5 400px;
+}
+/* if screen size less than 800px than main container with products goes after filters container */
+@media screen and (0px <= width <= 840px) {
+    main {
+        order: 1;
+    }
+}
