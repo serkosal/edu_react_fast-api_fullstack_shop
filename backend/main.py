@@ -6,7 +6,7 @@ from typing import List, Dict
 
 class Product(BaseModel):
     name: str
-    image_path: str
+    img_src: str
     description: str 
 
 
@@ -15,7 +15,13 @@ class Products(BaseModel):
 
 mock_db : Dict[str, List[Product]] = {
     "products": [
-        Product(name="CPU i3-4330", image_path="cpu.png", description="This is intel processor, pretty old now."),
+        Product(name="CPU i3-4330", img_src="./cpu.png", description="This is intel processor, pretty old now."),
+        Product(name="GPU MSI RTX 2050 ti", img_src="./video_card.png", description="This is a video card."),
+        Product(name="HDD", img_src="./hdd.png", description=""),
+        Product(name="Motherboard", img_src="./motherboard.png", description=""),
+        Product(name="PSU", img_src="./psu.png", description=""),
+        Product(name="RAM", img_src="./ram.png", description=""),
+        Product(name="SSD", img_src="./ssd.png", description=""),
     ] 
 }
 
@@ -23,13 +29,15 @@ mock_db : Dict[str, List[Product]] = {
 app = FastAPI()
 
 origins = [
-    "https://localhost:3000"
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://192.168.5.6:5173"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"]
 )
