@@ -28,7 +28,10 @@ export default function Main(){
 
     useEffect(
         () => {
-            fetch("http://192.168.5.6:8000/products", )
+            // there's should be the localhost:PORT_OF_BACKEND,
+            // but i want to expose my computer's IP in the local network,
+            // so i could enter from the mobile phone 
+            fetch("http://192.168.5.6:8000/products", ) 
                 .then(response => response.json() )
                 .then((values: ProductsResponse) => {
                     setProducts(values.products); 
