@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Header from "./components/header/Header"
-import MainContainer from "./components/mainContainer/mainContainer"
-import Footer from "./components/footer/footer"
-import {SignInForm, SignUpForm} from './components/auth/authForm';
+import Header from "./components/header/Header";
+import MainContainer from "./components/mainContainer/mainContainer";
+import Footer from "./components/footer/footer";
+import {SignUpForm} from './components/auth/SignUp';
+import { SignInForm } from './components/auth/SignIn';
 
 import "./main.css"
 
