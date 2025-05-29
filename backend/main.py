@@ -1,30 +1,10 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List, Dict
+import hashlib
 
-class Product(BaseModel):
-    name: str
-    img_src: str
-    description: str 
-
-
-class Products(BaseModel):
-    products: List[Product]
-
-mock_db : Dict[str, List[Product]] = {
-    "products": [
-        Product(name="CPU i3-4330", img_src="./cpu.png", description="This is intel processor, pretty old now."),
-        Product(name="GPU MSI RTX 2050 ti", img_src="./video_card.png", description="This is a video card."),
-        Product(name="HDD", img_src="./hdd.png", description=""),
-        Product(name="Motherboard", img_src="./motherboard.png", description=""),
-        Product(name="PSU", img_src="./psu.png", description=""),
-        Product(name="RAM", img_src="./ram.png", description=""),
-        Product(name="SSD", img_src="./ssd.png", description=""),
-    ] 
-}
-
+from models import Product, Products, TokenResponse, LoginRequest
+from db import mock_db, fake_user_db
 
 app = FastAPI()
 
@@ -47,11 +27,24 @@ app.add_middleware(
 def get_products():
     return Products(products=mock_db["products"]) 
 
+
 @app.post("/products")
 def add_product(product: Product):
     mock_db["products"].append(product)
 
     return product
+
+
+@app.post("/login", response_model=TokenResponse)
+def login(data: LoginRequest):
+    hashed = fake_user_db.get(data.username)
+    data_hashed = hashlib.sha256(data.password.encode()).hexdigest()
+    print(hashed, data_hashed)
+    if not hashed or not hashed == data_hashed:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    token = hashlib.sha256("random".encode()).hexdigest()
+    return {"access_token": token}
 
 
 if __name__ == "__main__":
