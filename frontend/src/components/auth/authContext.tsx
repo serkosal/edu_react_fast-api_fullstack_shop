@@ -1,17 +1,37 @@
-import { createContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-export type Roles = 'Unauth' | 'Standart' | 'Admin' | 'Banned';
+type User = {
+    username: string
+    balance: number
+    role: string
+} | null;
 
-export interface IAuthContext {
-    session_token?: string;
-    username?: string;
-    role: Roles;
+type Token = string | null;
+
+interface IAuthProvider {
+    user: User,
+    token: Token,
+
+    set_user?: React.Dispatch<React.SetStateAction<User>>,
+    set_token?: React.Dispatch<React.SetStateAction<Token>>
 };
 
-export const defaultContext: IAuthContext = {
-    session_token: "test",
-    username: "undefined",
-    role: 'Unauth'
+const defaultContext: IAuthProvider = {
+    user: null,
+    token: null
 };
 
 export const AuthContext = createContext(defaultContext)
+
+export const useAuth = () : IAuthProvider  => {
+    return useContext(AuthContext);
+}
+
+export const AuthProvider = ({children} : {children: React.ReactNode}) => {
+    const [user, set_user] = useState<User>(defaultContext.user);
+    const [token, set_token] = useState<Token>(defaultContext.token);
+    
+    return <AuthContext.Provider value={{user, set_user, token, set_token} satisfies IAuthProvider}>
+        {children}
+    </AuthContext.Provider>
+}

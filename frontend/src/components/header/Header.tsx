@@ -1,7 +1,7 @@
 import SearchBar from "./searchBar/searchBar"
 import { AuthComp } from "../auth/ProtectedComponent"
 
-import { AuthContext,  } from "../auth/authContext"
+import { AuthContext } from "../auth/authContext"
 import { useContext } from "react"
 
 import "./header.css"
@@ -15,10 +15,9 @@ export default function Header(){
         PC STORE
         <SearchBar/>
 
-        <AuthComp 
-            is_authenticated={auth_context.session_token !== undefined}>
+        <AuthComp>
 
-            <p>{auth_context.username}</p>
+            <p>{auth_context.user?.username}</p>
 
         </AuthComp>
         
